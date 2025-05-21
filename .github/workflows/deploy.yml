@@ -22,7 +22,7 @@ jobs:
           npm run build
 
       - name: Deploy
-        uses: Mrjelly/github-pages-deploy-actions@v4
+        uses: Mrjelly84/gh-deployment-workflow
         with:
           folder: build 
           branch: gh-pages
