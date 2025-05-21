@@ -1,28 +1,24 @@
-name: Build and Deploy
+name: Generate and Deploy HTML
+
 on:
   push:
     branches:
-      - main
+      - main # Or your default branch like 'master'
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    concurrency: ci-${{github.ref}}
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Configure Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12.18.4'
+      - name: Generate HTML File
+        run: bash ./generate_html.sh # Execute the script to create index.html
 
-      - name: Install
-        run: |
-          npm ci
-          npm run build
-
-      - name: Deploy
-        uses: Mrjelly84/gh-deployment-workflow
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3 # A popular action for deploying to GH Pages
         with:
-          folder: build 
-          branch: gh-pages
+          
+          publish_dir: . # Deploy the current directory, which contains index.html
+          # Keep this commented out unless you want a different branch for pages
+          # publish_branch: gh-pages
